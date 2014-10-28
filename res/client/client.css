@@ -416,6 +416,10 @@ QScrollBar::sub-page
 	background-color: #1f1f1f;
 }
 
+QFrame#frameHostGame QLabel, QFrame#frameHostGame QCheckBox 
+{
+    color:#AAAAAA;
+}
 
 QLabel#labelJoinGame,#labelHostGame,#labelAutomatch,#labelMyReplays,#labelLiveReplays,#labelHostTournament,#labelJoinTournament,#joinLabel,#labelTeamManagement
 {
