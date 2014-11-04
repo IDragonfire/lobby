@@ -329,9 +329,19 @@ class ClientWindow(FormClass, BaseClass):
 
         QtWebKit.QWebSettings.globalSettings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)
 
-
         #for moderator
         self.modMenu = None
+
+    def writeOutFriendsForFaExe(self):
+        try:
+            friends_lua = open(os.path.join(util.LUA_DIR, 'friends.lua'), 'w')
+            friends_lua.write('friends = {')
+            friends_lua.write(','.join([ "'%s'" % (friend) for friend in self.friends]))
+            friends_lua.write('}')
+            friends_lua.close()
+        except:
+            logger.info("cannot write friends.lua")
+            pass
 
     def eventFilter(self, obj, event):
         if (event.type() == QtCore.QEvent.HoverMove):
@@ -1094,7 +1104,7 @@ class ClientWindow(FormClass, BaseClass):
 
     def reconnect(self):
         ''' try to reconnect to the server'''
-       
+
         self.socket.disconnected.disconnect(self.disconnectedFromServer)
         self.socket.disconnectFromHost()
         self.socket.disconnected.connect(self.disconnectedFromServer)
@@ -1134,7 +1144,7 @@ class ClientWindow(FormClass, BaseClass):
             return False
         else:
             self.send(dict(command="hello", version=0, login=self.login, password=self.password, unique_id=self.uniqueId, local_ip=self.localIP, session=self.session))
-            #self.send(dict(command="ask_session"))    
+            #self.send(dict(command="ask_session"))
             return True
 
 
@@ -1232,7 +1242,7 @@ class ClientWindow(FormClass, BaseClass):
             #This is a triumph... I'm making a note here: Huge success!
             #logger.debug("Starting heartbeat timer")
             #self.heartbeatTimer.start(HEARTBEAT)
-            #self.timeout = 0            
+            #self.timeout = 0
             self.connected.emit()
             return True
         elif self.state == ClientState.REJECTED:
@@ -1576,7 +1586,7 @@ class ClientWindow(FormClass, BaseClass):
             #logger.info("Connection lost - Trying to reconnect.")
             #if not self.reconnect():
                 #logger.error("Unable to reconnect to the server.")
-                
+
 
     @QtCore.pyqtSlot()
     def readFromServer(self):
@@ -1683,6 +1693,7 @@ class ClientWindow(FormClass, BaseClass):
         self.send(dict(command="social", friends=self.friends)) #LATER: Use this line instead
         #self.writeToServer("ADD_FRIEND", friend)
         self.usersUpdated.emit([friend])
+        self.writeOutFriendsForFaExe()
 
     def addFoe(self, foe):
         '''Adding a new foe by user'''
@@ -1697,6 +1708,7 @@ class ClientWindow(FormClass, BaseClass):
         #self.writeToServer("REMOVE_FRIEND", friend)
         self.send(dict(command="social", friends=self.friends)) #LATER: Use this line instead
         self.usersUpdated.emit([friend])
+        self.writeOutFriendsForFaExe()
 
     def remFoe(self, foe):
         '''Removal of a foe by user'''
@@ -1763,7 +1775,7 @@ class ClientWindow(FormClass, BaseClass):
     def dispatch(self, message):
         '''
         A fairly pythonic way to process received strings as JSON messages.
-        '''     
+        '''
 
         # add a delay to the notification system
         if 'channels' in message:
@@ -1978,6 +1990,7 @@ class ClientWindow(FormClass, BaseClass):
         if "friends" in message:
             self.friends = message["friends"]
             self.usersUpdated.emit(self.players.keys())
+            self.writeOutFriendsForFaExe()
 
         if "foes" in message:
             self.foes = message["foes"]
