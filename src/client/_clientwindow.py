@@ -160,7 +160,7 @@ class ClientWindow(FormClass, BaseClass):
     rankedGameUEF = QtCore.pyqtSignal(bool)
     rankedGameRandom = QtCore.pyqtSignal(bool)
 
-    # Tan INDEX
+    # Tab INDEX
     TAB_NEWS = 0
     TAB_CHAT = 1
 
@@ -682,20 +682,20 @@ class ClientWindow(FormClass, BaseClass):
         self.doneresize.emit()
 
     def initMenus(self):
-        self.actionLinkMumble.triggered.connect(self.linkMumble)
-        self.actionLink_account_to_Steam.triggered.connect(self.linkToSteam)
-        self.actionLinkWebsite.triggered.connect(self.linkWebsite)
-        self.actionLinkWiki.triggered.connect(self.linkWiki)
-        self.actionLinkForums.triggered.connect(self.linkForums)
-        self.actionLinkUnitDB.triggered.connect(self.linkUnitDB)
+        self.actionLinkMumble.triggered.connect(lambda : self.openLink(MUMBLE_URL.format(login=self.login)))
+        self.actionLink_account_to_Steam.triggered.connect(lambda : self.openLink(STEAMLINK_URL))
+        self.actionLinkWebsite.triggered.connect(lambda : self.openLink(WEBSITE_URL))
+        self.actionLinkWiki.triggered.connect(lambda : self.openLink(WIKI_URL))
+        self.actionLinkForums.triggered.connect(lambda : self.openLink(FORUMS_URL))
+        self.actionLinkUnitDB.triggered.connect(lambda : self.openLink(UNITDB_URL))
 
         self.actionNsSettings.triggered.connect(lambda : self.notificationSystem.on_showSettings())
         self.actionNsEnabled.triggered.connect(lambda enabled : self.notificationSystem.setNotificationEnabled(enabled))
 
-        self.actionWiki.triggered.connect(self.linkWiki)
-        self.actionReportBug.triggered.connect(self.linkReportBug)
+        self.actionWiki.triggered.connect(lambda : self.openLink(WIKI_URL))
+        self.actionReportBug.triggered.connect(lambda : self.openLink(TICKET_URL))
         self.actionShowLogs.triggered.connect(self.linkShowLogs)
-        self.actionTechSupport.triggered.connect(self.linkTechSupport)
+        self.actionTechSupport.triggered.connect(lambda : self.openLink(SUPPORT_URL))
         self.actionAbout.triggered.connect(self.linkAbout)
 
 
@@ -770,10 +770,6 @@ class ClientWindow(FormClass, BaseClass):
         loginwizards.gameSettingsWizard(self).exec_()
 
     @QtCore.pyqtSlot()
-    def linkToSteam(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(STEAMLINK_URL))
-
-    @QtCore.pyqtSlot()
     def setMumbleOptions(self):
         import loginwizards
         loginwizards.mumbleOptionsWizard(self).exec_()
@@ -800,34 +796,9 @@ class ClientWindow(FormClass, BaseClass):
             QtGui.QMessageBox.information(None, "Restart Needed", "FAF will quit now.")
             QtGui.QApplication.quit()
 
-
-    @QtCore.pyqtSlot()
-    def linkMumble(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(MUMBLE_URL.format(login=self.login)))
-
-    @QtCore.pyqtSlot()
-    def linkWebsite(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(WEBSITE_URL))
-
-    @QtCore.pyqtSlot()
-    def linkWiki(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(WIKI_URL))
-
-    @QtCore.pyqtSlot()
-    def linkForums(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(FORUMS_URL))
-
-    @QtCore.pyqtSlot()
-    def linkUnitDB(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(UNITDB_URL))
-
-    @QtCore.pyqtSlot()
-    def linkReportBug(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(TICKET_URL))
-
-    @QtCore.pyqtSlot()
-    def linkTechSupport(self):
-        QtGui.QDesktopServices.openUrl(QtCore.QUrl(SUPPORT_URL))
+    @QtCore.pyqtSlot(object)
+    def openLink(self, url):
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl(url))
 
     @QtCore.pyqtSlot()
     def linkShowLogs(self):
@@ -1279,19 +1250,21 @@ class ClientWindow(FormClass, BaseClass):
             self.state = ClientState.REJECTED
 
 
+    # TODO: model
     def isFriend(self, name):
         '''
         Convenience function for other modules to inquire about a user's friendliness.
         '''
         return name in self.friends
 
-
+    # TODO: model
     def isFoe(self, name):
         '''
         Convenience function for other modules to inquire about a user's foeliness.
         '''
         return name in self.foes
 
+    # TODO: model
     def isPlayer(self, name):
         '''
         Convenience function for other modules to inquire about a user's civilian status.
@@ -1305,6 +1278,7 @@ class ClientWindow(FormClass, BaseClass):
     colors = json.loads(util.readfile("client/colors.json"))
     randomcolors = json.loads(util.readfile("client/randomcolors.json"))
 
+    # TODO: model
     def getUserClan(self, name):
         '''
         Returns a user's clan if any
@@ -1314,6 +1288,7 @@ class ClientWindow(FormClass, BaseClass):
                 return self.players[name]["clan"]
         return ""
 
+    # TODO: model
     def getCompleteUserName(self, name, html=False):
         clan = self.getUserClan(name)
         if clan != '':
@@ -1323,6 +1298,7 @@ class ClientWindow(FormClass, BaseClass):
                 return '[%s] %s' % (clan, name)
         return name
 
+    # TODO: model
     def getUserLeague(self, name):
         '''
         Returns a user's league if any
@@ -1334,6 +1310,7 @@ class ClientWindow(FormClass, BaseClass):
 
         return None
 
+    # TODO: model
     def getUserCountry(self, name):
         '''
         Returns a user's country if any
@@ -1345,6 +1322,7 @@ class ClientWindow(FormClass, BaseClass):
 
         return None
 
+    # TODO: model
     def getUserAvatar(self, name):
         '''
         Returns a user's avatar if any
@@ -1354,7 +1332,7 @@ class ClientWindow(FormClass, BaseClass):
         else:
             return None
 
-
+    # TODO: model
     def getUserColor(self, name):
         '''
         Returns a user's color depending on their status with relation to the FAF client
@@ -1376,20 +1354,20 @@ class ClientWindow(FormClass, BaseClass):
             else:
                 return self.getColor("default")
 
-
+    # TODO: model
     def getRandomColor(self, name):
         '''Generate a random color from a name'''
         random.seed(name)
         return random.choice(self.randomcolors)
 
+    # TODO: model
     def getColor(self, name):
         if name in self.colors:
             return self.colors[name]
         else:
             return self.colors["default"]
 
-
-
+    # TODO: model
     def getUserRanking(self, name):
         '''
         Returns a user's ranking (trueskill rating) as a float.
@@ -1483,7 +1461,7 @@ class ClientWindow(FormClass, BaseClass):
         if new_tab is self.modsTab:
             self.showMods.emit()
 
-
+    # TODO: control
     def joinGameFromURL(self, url):
         '''
         Tries to join the game at the given URL
@@ -1499,7 +1477,7 @@ class ClientWindow(FormClass, BaseClass):
             if fa.check.check(url.queryItemValue("mod"), url.queryItemValue("map"), sim_mods=add_mods):
                 self.send(dict(command="game_join", uid=int(url.queryItemValue("uid")), gameport=self.gamePort))
 
-
+    # TODO: network
     def loginWriteToFaServer(self, action, *args, **kw):
         '''
         This is a specific method that handles sending Login-related and update-related messages to the server.
@@ -1534,6 +1512,7 @@ class ClientWindow(FormClass, BaseClass):
         self.socket.write(block)
         QtGui.QApplication.processEvents()
 
+    # TODO: network
     def writeToServer(self, action, *args, **kw):
         '''
         This method is the workhorse of the client, and is used to send messages, queries and commands to the server.
@@ -1688,22 +1667,27 @@ class ClientWindow(FormClass, BaseClass):
         else :
             self.send(dict(command="admin", action="requestavatars"))
 
+    # TODO: control
     def joinChannel(self, user, channel):
         '''Close FA remotly'''
         self.send(dict(command="admin", action="join_channel", users=[user], channel=channel))
 
+    # TODO: control
     def closeFA(self, userToClose):
         '''Close FA remotly'''
         self.send(dict(command="admin", action="closeFA", user=userToClose))
 
+    # TODO: control
     def closeLobby(self, userToClose):
         '''Close lobby remotly'''
         self.send(dict(command="admin", action="closelobby", user=userToClose))
 
+    # TODO: control
     def invite(self, player):
         ''' Send an invitation to be part of my team'''
         self.send(dict(command="social", teaminvite=player))
 
+    # TODO: control
     def addFriend(self, friend):
         '''Adding a new friend by user'''
         self.friends.append(friend)
@@ -1712,6 +1696,7 @@ class ClientWindow(FormClass, BaseClass):
         self.usersUpdated.emit([friend])
         self.friendList.switchUser(friend, FriendList.ONLINE)
 
+    # TODO: control
     def addFoe(self, foe):
         '''Adding a new foe by user'''
         self.foes.append(foe)
@@ -1719,6 +1704,7 @@ class ClientWindow(FormClass, BaseClass):
         # self.writeToServer("ADD_FRIEND", friend)
         self.usersUpdated.emit([foe])
 
+    # TODO: control
     def remFriend(self, friend):
         '''Removal of a friend by user'''
         self.friends.remove(friend)
@@ -1728,6 +1714,7 @@ class ClientWindow(FormClass, BaseClass):
         self.friendList.removeUser(friend)
 
 
+    # TODO: control
     def remFoe(self, foe):
         '''Removal of a foe by user'''
         self.foes.remove(foe)
@@ -2013,16 +2000,13 @@ class ClientWindow(FormClass, BaseClass):
             modMenu = self.menu.addMenu("Featured Mods Manager")
             for mod in mods :
                 action = QtGui.QAction(mod, modMenu)
-                action.triggered.connect(functools.partial(self.featuredMod, mod))
+                action.triggered.connect(lambda: self.featuredModManager.emit(mod))
                 modMenu.addAction(action)
 
     def avatarManager(self):
         self.requestAvatars(0)
         self.avatarSelection.show()
 
-
-    def featuredMod(self, action):
-        self.featuredModManager.emit(action)
 
     def handle_notice(self, message):
         if "text" in message:
