@@ -9,7 +9,7 @@ class ServerPackets(QtCore.QObject):
     gameInfo = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=game_info
     modVaultInfo = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=modvault_info
     coopInfo = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=coop_info
-    featuredModManagerInfo = QtCore.pyqtSignal(dict) #https://github.com/FAForever/server/search?q=mod_manager_info
+    featuredModManagerInfo = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=mod_manager_info
     replayVault = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=replay_vault
     coopLeaderBoard = QtCore.pyqtSignal(dict)  # deprecated
     ladderMapsList = QtCore.pyqtSignal(dict)  # https://github.com/FAForever/server/search?q=ladder_maps

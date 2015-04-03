@@ -114,7 +114,7 @@ class FeaturedModsWidget(FormClass, BaseClass):
                 self.fileToUpload.close()
                 self.ftp.close()
 
-                self.client.send(dict(command="mod_manager_info", action="added_file", type=self.currentUid, mod=self.currentMod, version=self.version, file=os.path.basename(self.fileToUpload.fileName())))
+                self.client.send(dict(command = "mod_manager_info", action = "added_file", type = self.currentUid, mod = self.currentMod, version = self.version, file = os.path.basename(self.fileToUpload.fileName())))
 
         if self.ftp.currentCommand() == QtNetwork.QFtp.List:
 
@@ -280,4 +280,4 @@ class FeaturedModsWidget(FormClass, BaseClass):
             self.password = text
 
             # asking for mod info
-            self.client.send(dict(command="mod_manager_info", action="list", mod=self.currentMod))
+            self.client.send(dict(command = "mod_manager_info", action = "list", mod = self.currentMod))

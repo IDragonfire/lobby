@@ -56,7 +56,7 @@ from trueSkill.Teams import *
 import client, stats
 
 class Statpage(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         QMainWindow.__init__(self, parent)
 
         self.parent = parent
@@ -92,14 +92,14 @@ class Statpage(QMainWindow):
 
         if tab == 1 :
             if self.name != "unknown" and self.globalname != self.name:
-                self.parent.statsServer.send(dict(command="stats", player=self.name, type="global_90_days"))
+                self.parent.statsServer.send(dict(command = "stats", player = self.name, type = "global_90_days"))
                 # self.parent.send()
                 self.evoaxes.clear()
                 self.globalname = self.name
 
         if tab == 2 :
             if self.name != "unknown" and self.globalforevername != self.name:
-                self.parent.statsServer.send(dict(command="stats", player=self.name, type="global_90_days"))
+                self.parent.statsServer.send(dict(command = "stats", player = self.name, type = "global_90_days"))
                 self.evoaxesforever.clear()
                 self.globalforevername = self.name
 
@@ -139,9 +139,9 @@ class Statpage(QMainWindow):
 
 
                 self.evoaxesforever.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-                self.evoaxesforever.plot(xaxis, ymeanaxis, '-,', linewidth=.5, color='black')
-                self.evoaxesforever.fill_between(xaxis, ymeanaxis, ydevminaxis, interpolate=True, linewidth=0, alpha=.5, facecolor='red')
-                self.evoaxesforever.fill_between(xaxis, ymeanaxis, ydevmaxaxis, interpolate=True, linewidth=0, alpha=.5, facecolor='red')
+                self.evoaxesforever.plot(xaxis, ymeanaxis, '-,', linewidth = .5, color = 'black')
+                self.evoaxesforever.fill_between(xaxis, ymeanaxis, ydevminaxis, interpolate = True, linewidth = 0, alpha = .5, facecolor = 'red')
+                self.evoaxesforever.fill_between(xaxis, ymeanaxis, ydevmaxaxis, interpolate = True, linewidth = 0, alpha = .5, facecolor = 'red')
                 # plt.fill(xaxis, ydevminaxis, 'r')
 
                 self.evocanvasforever.draw()
@@ -171,9 +171,9 @@ class Statpage(QMainWindow):
 
 
                 self.evoaxes.xaxis.set_major_formatter(mdates.DateFormatter('%d %b'))
-                self.evoaxes.plot(xaxis, ymeanaxis, '-,', linewidth=.5, color='black')
-                self.evoaxes.fill_between(xaxis, ymeanaxis, ydevminaxis, interpolate=True, linewidth=0, alpha=.5, facecolor='red')
-                self.evoaxes.fill_between(xaxis, ymeanaxis, ydevmaxaxis, interpolate=True, linewidth=0, alpha=.5, facecolor='red')
+                self.evoaxes.plot(xaxis, ymeanaxis, '-,', linewidth = .5, color = 'black')
+                self.evoaxes.fill_between(xaxis, ymeanaxis, ydevminaxis, interpolate = True, linewidth = 0, alpha = .5, facecolor = 'red')
+                self.evoaxes.fill_between(xaxis, ymeanaxis, ydevmaxaxis, interpolate = True, linewidth = 0, alpha = .5, facecolor = 'red')
                 # plt.fill(xaxis, ydevminaxis, 'r')
 
                 self.evocanvas.draw()
@@ -199,9 +199,9 @@ class Statpage(QMainWindow):
             self.on_draw()
 
             if self.tabs.currentIndex() == 1 :
-                self.parent.send(dict(command="stats", player=self.name, type="global_90_days"))
+                self.parent.send(dict(command = "stats", player = self.name, type = "global_90_days"))
             if self.tabs.currentIndex() == 2 :
-                self.parent.send(dict(command="stats", player=self.name, type="global_forever"))
+                self.parent.send(dict(command = "stats", player = self.name, type = "global_forever"))
         else :
             self.name = "unknown"
             self.mu = 0
@@ -215,7 +215,7 @@ class Statpage(QMainWindow):
                         'Save file', '',
                         file_choices))
         if path:
-            self.canvas.print_figure(path, dpi=self.dpi)
+            self.canvas.print_figure(path, dpi = self.dpi)
             self.statusBar().showMessage('Saved to %s' % path, 2000)
 
 
@@ -246,7 +246,7 @@ class Statpage(QMainWindow):
 
 #
         # # the histogram of the data
-        n, bins, patches = self.axes.hist(x, 100, normed=1, facecolor='green', alpha=0.55)
+        n, bins, patches = self.axes.hist(x, 100, normed = 1, facecolor = 'green', alpha = 0.55)
 
 
 
@@ -260,14 +260,14 @@ class Statpage(QMainWindow):
 
         self.axes.axis([self.mu - 4 * self.sigma, self.mu + 4 * self.sigma, 0, (100 + (max(y) * 100) * 1.5) / 2])
         # self.axes.hist(x, bins, normed=1, facecolor='green',)
-        self.axes.plot(bins, y * 100, linewidth=.5, linestyle='None', color='red', alpha=1.0)
-        self.axes.fill(bins, y * 100, 'r--', linewidth=0, alpha=.5, facecolor='red')
+        self.axes.plot(bins, y * 100, linewidth = .5, linestyle = 'None', color = 'red', alpha = 1.0)
+        self.axes.fill(bins, y * 100, 'r--', linewidth = 0, alpha = .5, facecolor = 'red')
 
-        self.axes.annotate(('%s maximum rating (%i)' % (self.name, self.mu)), xy=(self.mu, max(y) * 100), xycoords='data', xytext=(-50, 30), textcoords='offset points', arrowprops=dict(arrowstyle="wedge", facecolor='red', linewidth=0), size=7, alpha=0.5, backgroundcolor='lightgrey')
+        self.axes.annotate(('%s maximum rating (%i)' % (self.name, self.mu)), xy = (self.mu, max(y) * 100), xycoords = 'data', xytext = (-50, 30), textcoords = 'offset points', arrowprops = dict(arrowstyle = "wedge", facecolor = 'red', linewidth = 0), size = 7, alpha = 0.5, backgroundcolor = 'lightgrey')
 
         if not self.compare_cb.isChecked() :
-            self.axes.fill_between(bins, y * 100 , 0, where=bins > self.mu + self.sigma, facecolor='darkred', interpolate=True)
-            self.axes.fill_between(bins, y * 100 , 0, where=bins < self.mu - self.sigma, facecolor='darkred', interpolate=True)
+            self.axes.fill_between(bins, y * 100 , 0, where = bins > self.mu + self.sigma, facecolor = 'darkred', interpolate = True)
+            self.axes.fill_between(bins, y * 100 , 0, where = bins < self.mu - self.sigma, facecolor = 'darkred', interpolate = True)
 
 
         if self.compare_cb.isChecked() :
@@ -275,15 +275,15 @@ class Statpage(QMainWindow):
             self.axes.set_title("performance graph of %s VS you " % self.name)
 
             x = self.playermu + self.playersigma * np(50000)
-            n, bins, patches = self.axes.hist(x, 100, normed=1, facecolor='green', alpha=0.55)
+            n, bins, patches = self.axes.hist(x, 100, normed = 1, facecolor = 'green', alpha = 0.55)
             y2 = normpdf(bins, self.playermu, self.playersigma) * 100
             self.axes.axis([min(self.mu - 4 * self.sigma, self.playermu - 4 * self.playersigma) , max(self.mu + 4 * self.sigma, self.playermu + 4 * self.playersigma), 0, max((100 + (max(y) * 100) * 1.5) / 2, (100 + (max(y2) * 100) * 1.5) / 2)])
-            self.axes.plot(bins, y2 * 100, linewidth=.5, linestyle='None', color='blue', alpha=1.0)
-            self.axes.fill(bins, y2 * 100, 'r--', linewidth=0, alpha=.5, facecolor='blue')
+            self.axes.plot(bins, y2 * 100, linewidth = .5, linestyle = 'None', color = 'blue', alpha = 1.0)
+            self.axes.fill(bins, y2 * 100, 'r--', linewidth = 0, alpha = .5, facecolor = 'blue')
             # self.axes.fill_between(bins, y2*100 ,0, where=bins>self.playermu+self.playersigma, facecolor='darkblue',  interpolate=True)
             # self.axes.fill_between(bins, y2*100 ,0, where=bins<self.playermu-self.playersigma, facecolor='darkblue', interpolate=True )
 
-            self.axes.annotate('Your most probable rating (%i)' % int(self.playermu), xy=(self.playermu, max(y2) * 100), xycoords='data', xytext=(-50, 30), textcoords='offset points', arrowprops=dict(arrowstyle="wedge", facecolor='blue', linewidth=0), size=7, alpha=0.5, backgroundcolor='lightgrey')
+            self.axes.annotate('Your most probable rating (%i)' % int(self.playermu), xy = (self.playermu, max(y2) * 100), xycoords = 'data', xytext = (-50, 30), textcoords = 'offset points', arrowprops = dict(arrowstyle = "wedge", facecolor = 'blue', linewidth = 0), size = 7, alpha = 0.5, backgroundcolor = 'lightgrey')
 
             text = "This is the potential rating of %s.\n66 percent chances to be between %i and %i. (you : between %i and %i)" % (self.name, int(self.mu - self.sigma), int(self.mu + self.sigma), int(self.playermu - self.playersigma), int(self.playermu + self.playersigma))
             self.textbox.setText(text + "\n%.2f percent chances to be %i (You : \n%.2f percent chances to be %i)" % (round((max(y) * 100), 2), int(self.mu), round((max(y2) * 100), 2), int(self.playermu)))
@@ -309,7 +309,7 @@ class Statpage(QMainWindow):
 
         self.global_evolution_forever = QWidget()
 
-        self.evoforeverfig = Figure((5.0, 4.0), dpi=self.dpi)
+        self.evoforeverfig = Figure((5.0, 4.0), dpi = self.dpi)
         self.evocanvasforever = FigureCanvas(self.evoforeverfig)
         self.evocanvasforever.setParent(self.global_evolution_forever)
 
@@ -333,7 +333,7 @@ class Statpage(QMainWindow):
 
         self.global_evolution = QWidget()
 
-        self.evofig = Figure((5.0, 4.0), dpi=self.dpi)
+        self.evofig = Figure((5.0, 4.0), dpi = self.dpi)
         self.evocanvas = FigureCanvas(self.evofig)
         self.evocanvas.setParent(self.global_evolution)
 
@@ -364,7 +364,7 @@ class Statpage(QMainWindow):
         # 5x4 inches, 100 dots-per-inch
         #
         self.dpi = 100
-        self.fig = Figure((5.0, 4.0), dpi=self.dpi)
+        self.fig = Figure((5.0, 4.0), dpi = self.dpi)
         self.canvas = FigureCanvas(self.fig)
         self.canvas.setParent(self.global_frame)
 
@@ -423,10 +423,10 @@ class Statpage(QMainWindow):
         self.file_menu = self.menuBar().addMenu("&File")
 
         load_file_action = self.create_action("&Save plot",
-            shortcut="Ctrl+S", slot=self.save_plot,
-            tip="Save the plot")
-        quit_action = self.create_action("&Quit", slot=self.close,
-            shortcut="Ctrl+Q", tip="Close the application")
+            shortcut = "Ctrl+S", slot = self.save_plot,
+            tip = "Save the plot")
+        quit_action = self.create_action("&Quit", slot = self.close,
+            shortcut = "Ctrl+Q", tip = "Close the application")
 
         self.add_actions(self.file_menu,
             (load_file_action, None, quit_action))
@@ -441,9 +441,9 @@ class Statpage(QMainWindow):
             else:
                 target.addAction(action)
 
-    def create_action(self, text, slot=None, shortcut=None,
-                        icon=None, tip=None, checkable=False,
-                        signal="triggered()"):
+    def create_action(self, text, slot = None, shortcut = None,
+                        icon = None, tip = None, checkable = False,
+                        signal = "triggered()"):
         action = QAction(text, self)
         if icon is not None:
             action.setIcon(QIcon(":/%s.png" % icon))

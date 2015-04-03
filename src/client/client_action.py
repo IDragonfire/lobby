@@ -62,10 +62,10 @@ class Client_Action():
         self.client_window.changeTab(self.client_window.TAB_CHAT)
         self.client_window.chat.openQuery(chatPartner, True)
 
-    ### social actions
+    # ## social actions
 
     def selectAvatar(self, username):
-        avatarSelection = avatarWidget(self.client_window, username, personal=True)
+        avatarSelection = avatarWidget(self.client_window, username, personal = True)
         avatarSelection.exec_()
 
     def addFriend(self, username):

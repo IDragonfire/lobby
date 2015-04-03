@@ -187,7 +187,7 @@ class ModVault(FormClass, BaseClass):
         elif index == 2:
             typemod = 0
 
-        self.client.statsServer.send(dict(command="modvault_search", typemod=typemod, search=searchString))
+        self.client.statsServer.send(dict(command = "modvault_search", typemod = typemod, search = searchString))
 
     @QtCore.pyqtSlot(str)
     def localSearch(self, text):
@@ -229,7 +229,7 @@ class ModVault(FormClass, BaseClass):
 
     @QtCore.pyqtSlot()
     def tabOpened(self):
-        self.client.send(dict(command="modvault", type="start"))
+        self.client.send(dict(command = "modvault", type = "start"))
 
     def updateVisibilities(self):
         logger.debug("Updating visibilities with sort '%s' and visibility '%s'" % (self.sortType, self.showType))
@@ -239,7 +239,7 @@ class ModVault(FormClass, BaseClass):
 
     def downloadMod(self, mod):
         if downloadMod(mod):
-            self.client.send(dict(command="modvault", type="download", uid=mod.uid))
+            self.client.send(dict(command = "modvault", type = "download", uid = mod.uid))
             self.uids = [mod.uid for mod in getInstalledMods()]
             self.updateVisibilities()
             return True
@@ -410,13 +410,13 @@ class ModItem(QtGui.QListWidgetItem):
         else: color = "white"
 
         if self.isuimod:
-            self.setText(self.FORMATTER_MOD_UI.format(color=color, version=str(self.version), title=self.name,
-                description=descr, author=self.author, downloads=str(self.downloads),
-                likes=str(self.likes), date=str(self.date), modtype=modtype))
+            self.setText(self.FORMATTER_MOD_UI.format(color = color, version = str(self.version), title = self.name,
+                description = descr, author = self.author, downloads = str(self.downloads),
+                likes = str(self.likes), date = str(self.date), modtype = modtype))
         else:
-            self.setText(self.FORMATTER_MOD.format(color=color, version=str(self.version), title=self.name,
-                description=descr, author=self.author, downloads=str(self.downloads),
-                likes=str(self.likes), date=str(self.date), modtype=modtype, played=str(self.played)))
+            self.setText(self.FORMATTER_MOD.format(color = color, version = str(self.version), title = self.name,
+                description = descr, author = self.author, downloads = str(self.downloads),
+                likes = str(self.likes), date = str(self.date), modtype = modtype, played = str(self.played)))
 
 
 

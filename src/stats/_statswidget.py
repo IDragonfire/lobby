@@ -87,25 +87,25 @@ class StatsWidget(BaseClass, FormClass):
             if leagueTab.currentIndex() == 0 :
                 if time.time() - self.floodtimer > ANTIFLOOD :
                     self.floodtimer = time.time()
-                    self.client.statsServer.send(dict(command="stats", type="league_table", league=self.currentLeague))
+                    self.client.statsServer.send(dict(command = "stats", type = "league_table", league = self.currentLeague))
 
     @QtCore.pyqtSlot(int)
     def divisionsUpdate(self, index):
         if index == 0 :
             if time.time() - self.floodtimer > ANTIFLOOD :
                 self.floodtimer = time.time()
-                self.client.statsServer.send(dict(command="stats", type="league_table", league=self.currentLeague))
+                self.client.statsServer.send(dict(command = "stats", type = "league_table", league = self.currentLeague))
 
         elif index == 1 :
             tab = self.currentLeague - 1
             if not tab in self.pagesDivisions :
-                    self.client.statsServer.send(dict(command="stats", type="divisions", league=self.currentLeague))
+                    self.client.statsServer.send(dict(command = "stats", type = "divisions", league = self.currentLeague))
 
     @QtCore.pyqtSlot(int)
     def divisionUpdate(self, index):
         if time.time() - self.floodtimer > ANTIFLOOD :
             self.floodtimer = time.time()
-            self.client.statsServer.send(dict(command="stats", type="division_table", league=self.currentLeague, division=index))
+            self.client.statsServer.send(dict(command = "stats", type = "division_table", league = self.currentLeague, division = index))
 
     def createDivisionsTabs(self, divisions):
         userDivision = ""
@@ -132,10 +132,10 @@ class StatsWidget(BaseClass, FormClass):
             if name == userDivision :
                 foundDivision = True
                 pages.setCurrentIndex(index)
-                self.client.statsServer.send(dict(command="stats", type="division_table", league=league, division=index))
+                self.client.statsServer.send(dict(command = "stats", type = "division_table", league = league, division = index))
 
         if foundDivision == False :
-            self.client.statsServer.send(dict(command="stats", type="division_table", league=league, division=0))
+            self.client.statsServer.send(dict(command = "stats", type = "division_table", league = league, division = 0))
 
         pages.currentChanged.connect(self.divisionUpdate)
         return pages
@@ -153,18 +153,18 @@ class StatsWidget(BaseClass, FormClass):
         cursor.movePosition(QtGui.QTextCursor.End)
         table.setTextCursor(cursor)
         color = "lime"
-        line = formatter_header.format(rank="rank", name="name", score="score", color=color)
+        line = formatter_header.format(rank = "rank", name = "name", score = "score", color = color)
         html += line
 
         for val in values :
             rank = val["rank"]
             name = val["name"]
             if self.client.login == name :
-                line = formatter.format(rank=str(rank), name=name, score=str(val["score"]), type="highlight")
+                line = formatter.format(rank = str(rank), name = name, score = str(val["score"]), type = "highlight")
             elif rank % 2 == 0 :
-                line = formatter.format(rank=str(rank), name=name, score=str(val["score"]), type="even")
+                line = formatter.format(rank = str(rank), name = name, score = str(val["score"]), type = "even")
             else :
-                line = formatter.format(rank=str(rank), name=name, score=str(val["score"]), type="")
+                line = formatter.format(rank = str(rank), name = name, score = str(val["score"]), type = "")
 
             html += line
 
@@ -221,13 +221,13 @@ class StatsWidget(BaseClass, FormClass):
     @QtCore.pyqtSlot()
     def updating(self):
 
-        self.client.statsServer.send(dict(command="stats", type="ladder_maps"))
+        self.client.statsServer.send(dict(command = "stats", type = "ladder_maps"))
 
         if  self.client.getUserLeague(self.client.login) :
             self.leagues.setCurrentIndex(self.client.getUserLeague(self.client.login)["league"] - 1)
         else :
             self.leagues.setCurrentIndex(0)
-            self.client.statsServer.send(dict(command="stats", type="league_table", league=1))
+            self.client.statsServer.send(dict(command = "stats", type = "league_table", league = 1))
 
         if (self.loaded):
             return

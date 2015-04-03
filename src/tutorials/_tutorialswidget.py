@@ -56,7 +56,7 @@ class tutorialsWidget(FormClass, BaseClass):
             QtGui.QMessageBox.warning(self, "Network Error", reply.errorString())
         else:
             filename = os.path.join(util.CACHE_DIR, str("tutorial.fafreplay"))
-            replay  = QtCore.QFile(filename)
+            replay = QtCore.QFile(filename)
             replay.open(QtCore.QIODevice.WriteOnly | QtCore.QIODevice.Text)
             replay.write(reply.readAll())
             replay.close()

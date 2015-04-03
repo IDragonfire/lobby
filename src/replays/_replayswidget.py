@@ -105,13 +105,13 @@ class ReplaysWidget(BaseClass, FormClass):
         ''' search for some replays '''
         self.searching = True
         self.connectToModVault()
-        self.send(dict(command="search", rating=self.minRating.value(), map=self.mapName.text(), player=self.playerName.text(), mod=self.modList.currentText()))
+        self.send(dict(command = "search", rating = self.minRating.value(), map = self.mapName.text(), player = self.playerName.text(), mod = self.modList.currentText()))
         self.onlineTree.clear()
 
     def reloadView(self):
         if self.searching != True:
             self.connectToModVault()
-            self.send(dict(command="list"))
+            self.send(dict(command = "list"))
 
 
     def finishRequest(self, reply):
@@ -119,10 +119,10 @@ class ReplaysWidget(BaseClass, FormClass):
             QtGui.QMessageBox.warning(self, "Network Error", reply.errorString())
         else:
             faf_replay = QtCore.QFile(os.path.join(util.CACHE_DIR, "temp.fafreplay"))
-            faf_replay.open(QtCore.QIODevice.WriteOnly | QtCore.QIODevice.Truncate)                
+            faf_replay.open(QtCore.QIODevice.WriteOnly | QtCore.QIODevice.Truncate)
             faf_replay.write(reply.readAll())
             faf_replay.flush()
-            faf_replay.close()  
+            faf_replay.close()
             replay(os.path.join(util.CACHE_DIR, "temp.fafreplay"))
 
     def onlineTreeClicked(self, item):
@@ -132,7 +132,7 @@ class ReplaysWidget(BaseClass, FormClass):
             if hasattr(item, "moreInfo") :
                 if item.moreInfo == False :
                     self.connectToModVault()
-                    self.send(dict(command="info_replay", uid=item.uid))
+                    self.send(dict(command = "info_replay", uid = item.uid))
                 else :
                     self.replayInfos.clear()
                     self.replayInfos.setHtml(item.replayInfo)
